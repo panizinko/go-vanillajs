@@ -21,7 +21,7 @@ go get github.com/lib/pq
 Create the *main.go* file.
 
 ```go
-package main 
+package main
 
 func main() {
     // Serve static files
@@ -123,8 +123,8 @@ Create the *models* package with the following files:
 package models
 
 type Genre struct {
-	ID   int   
-	Name string 
+	ID   int
+	Name string
 }
 ```
 
@@ -133,10 +133,10 @@ type Genre struct {
 package models
 
 type Actor struct {
-	ID        int     
-	FirstName string  
-	LastName  string  
-	ImageURL  *string 
+	ID        int
+	FirstName string
+	LastName  string
+	ImageURL  *string
 }
 
 ```
@@ -146,20 +146,20 @@ type Actor struct {
 package models
 
 type Movie struct {
-	ID          int      
-	TMDB_ID     int      
-	Title       string   
-	Tagline     *string  
-	ReleaseYear int      
-	Genres      []Genre  
-	Overview    *string  
-	Score       *float32 
-	Popularity  *float32 
-	Keywords    []string 
-	Language    *string  
-	PosterURL   *string  
-	TrailerURL  *string  
-	Casting     []Actor  
+	ID          int
+	TMDB_ID     int
+	Title       string
+	Tagline     *string
+	ReleaseYear int
+	Genres      []Genre
+	Overview    *string
+	Score       *float32
+	Popularity  *float32
+	Keywords    []string
+	Language    *string
+	PosterURL   *string
+	TrailerURL  *string
+	Casting     []Actor
 }
 
 ```
@@ -244,7 +244,7 @@ Now setup the handler in *main.go*
 
 ### A5 - Install AIR
 
-Check instructions at [https://github.com/air-verse/air](https://github.com/air-verse/air), such as executing
+Check instructions at [https://github.com/air-verse/air](https`://github.com/air-verse/air), such as executing
 
 ```
 go install github.com/cosmtrek/air@latest
@@ -387,7 +387,7 @@ const defaultLimit = 20
 func (r *MovieRepository) GetTopMovies() ([]models.Movie, error) {
 	// Fetch movies
 	query := `
-		SELECT id, tmdb_id, title, tagline, release_year, overview, score, 
+		SELECT id, tmdb_id, title, tagline, release_year, overview, score,
 		       popularity, language, poster_url, trailer_url
 		FROM movies
 		ORDER BY popularity DESC
@@ -462,7 +462,7 @@ func (h *MovieHandler) handleStorageError(w http.ResponseWriter, err error, cont
 Update handler instance in *main.go* to use the new structure:
 
 ```go
-movieHandler := handlers.NewMovieHandler(movieRepo, logInstance)	
+movieHandler := handlers.NewMovieHandler(movieRepo, logInstance)
 ```
 
 ### B6 - Finish the Movie Repository
@@ -499,7 +499,7 @@ const defaultLimit = 20
 func (r *MovieRepository) GetTopMovies() ([]models.Movie, error) {
 	// Fetch movies
 	query := `
-		SELECT id, tmdb_id, title, tagline, release_year, overview, score, 
+		SELECT id, tmdb_id, title, tagline, release_year, overview, score,
 		       popularity, language, poster_url, trailer_url
 		FROM movies
 		ORDER BY popularity DESC
@@ -511,7 +511,7 @@ func (r *MovieRepository) GetTopMovies() ([]models.Movie, error) {
 func (r *MovieRepository) GetRandomMovies() ([]models.Movie, error) {
 	// Fetch movies
 	randomQuery := `
-		SELECT id, tmdb_id, title, tagline, release_year, overview, score, 
+		SELECT id, tmdb_id, title, tagline, release_year, overview, score,
 		       popularity, language, poster_url, trailer_url
 		FROM movies
 		ORDER BY random()
@@ -548,7 +548,7 @@ func (r *MovieRepository) getMovies(query string) ([]models.Movie, error) {
 func (r *MovieRepository) GetMovieByID(id int) (models.Movie, error) {
 	// Fetch movie
 	query := `
-		SELECT id, tmdb_id, title, tagline, release_year, overview, score, 
+		SELECT id, tmdb_id, title, tagline, release_year, overview, score,
 		       popularity, language, poster_url, trailer_url
 		FROM movies
 		WHERE id = $1
@@ -591,14 +591,14 @@ func (r *MovieRepository) SearchMoviesByName(name string, order string, genre *i
 
 	genreFilter := ""
 	if genre != nil {
-		genreFilter = ` AND ((SELECT COUNT(*) FROM movie_genres 
-								WHERE movie_id=movies.id 
+		genreFilter = ` AND ((SELECT COUNT(*) FROM movie_genres
+								WHERE movie_id=movies.id
 								AND genre_id=` + strconv.Itoa(*genre) + `) = 1) `
 	}
 
 	// Fetch movies by name
 	query := `
-		SELECT id, tmdb_id, title, tagline, release_year, overview, score, 
+		SELECT id, tmdb_id, title, tagline, release_year, overview, score,
 		       popularity, language, poster_url, trailer_url
 		FROM movies
 		WHERE (title ILIKE $1 OR overview ILIKE $1) ` + genreFilter + `
@@ -654,7 +654,7 @@ func (r *MovieRepository) GetAllGenres() ([]models.Genre, error) {
 func (r *MovieRepository) fetchMovieRelations(m *models.Movie) error {
 	// Fetch genres
 	genreQuery := `
-		SELECT g.id, g.name 
+		SELECT g.id, g.name
 		FROM genres g
 		JOIN movie_genres mg ON g.id = mg.genre_id
 		WHERE mg.movie_id = $1
@@ -935,7 +935,7 @@ Create `public.html`
     <footer>
         <p>© ReelingIt - FrontendMasters.com</p>
     </footer>
-         
+
 </body>
 
 </html>
@@ -946,12 +946,12 @@ Create `public.html`
 Create `app.js`
 
 ```js
-window.app = { 
+window.app = {
     search: (event) => {
         event.preventDefault();
         const keywords = document.querySelector("input[type=search]").value;
-        
-    },    
+
+    },
 }
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -1031,7 +1031,7 @@ Create a template in the *index.html*
         <ul>
             <animated-loading data-elements="5"
                 data-width="150px" data-height="220px">
-            </animated-loading> 
+            </animated-loading>
         </ul>
     </section>
     <section class="vertical-scroll" id="random">
@@ -1039,7 +1039,7 @@ Create a template in the *index.html*
         <ul>
             <animated-loading data-elements="5"
                 data-width="150px" data-height="220px">
-            </animated-loading> 
+            </animated-loading>
         </ul>
     </section>
 </template>
@@ -1094,14 +1094,14 @@ export default class HomePage extends HTMLElement {
                 const li = document.createElement("li");
                 li.appendChild(new MovieItemComponent(movie));
                 ul.appendChild(li);
-            });    
+            });
         }
     }
 
     connectedCallback() {
         const template = document.getElementById("template-home");
         const content = template.content.cloneNode(true);
-        this.appendChild(content);  
+        this.appendChild(content);
 
         this.render();
     }
@@ -1125,9 +1125,9 @@ class AnimatedLoading extends HTMLElement {
         let height = this.dataset.height ?? "10px";
         for (let i=0; i<qty; i++) {
             const wrapper = document.createElement('div');
-            wrapper.setAttribute('class', 'loading-wave');    
+            wrapper.setAttribute('class', 'loading-wave');
             wrapper.style.width = width;
-            wrapper.style.height = height;        
+            wrapper.style.height = height;
             wrapper.style.margin = "10px";
             wrapper.style.display = "inline-block";
             this.appendChild(wrapper);
@@ -1154,7 +1154,7 @@ Add a new template to *index.html*
                     <dl id="metadata">
                     </dl>
                     <button>Add to Favorites</button>
-                    <button>Add to Watchlist</button>    
+                    <button>Add to Watchlist</button>
                 </section>
             </header>
             <ul id="genres"></ul>
@@ -1170,7 +1170,7 @@ Create the *components/MovieDetailsPage.js* file:
 import API from "../services/API.js";
 
 export default class MovieDetailsPage extends HTMLElement {
-    
+
     movie = null;
 
     async render(id) {
@@ -1182,20 +1182,20 @@ export default class MovieDetailsPage extends HTMLElement {
         }
         const template = document.getElementById("template-movie-details");
         const content = template.content.cloneNode(true);
-        this.appendChild(content);  
+        this.appendChild(content);
 
         this.querySelector("h2").textContent = this.movie.title;
         this.querySelector("h3").textContent = this.movie.tagline;
         this.querySelector("img").src = this.movie.poster_url;
         this.querySelector("#trailer").dataset.url = this.movie.trailer_url;
         this.querySelector("#overview").textContent = this.movie.overview;
-        this.querySelector("#metadata").innerHTML = `                        
+        this.querySelector("#metadata").innerHTML = `
             <dt>Release Date</dt>
-            <dd>${this.movie.release_year}</dd>                        
+            <dd>${this.movie.release_year}</dd>
             <dt>Score</dt>
-            <dd>${this.movie.score} / 10</dd>                        
+            <dd>${this.movie.score} / 10</dd>
             <dt>Original languae</dt>
-            <dd>${this.movie.language}</dd>                        
+            <dd>${this.movie.language}</dd>
         `;
 
         const ulGenres = this.querySelector("#genres");
@@ -1234,7 +1234,7 @@ Create the *components/YouTubeEmbed.js* file:
 
 ```js
 export class YouTubeEmbed extends HTMLElement {
-    
+
     static get observedAttributes() {
         return ['data-url'];
     }
@@ -1283,7 +1283,7 @@ export const routes = [
     {
         path: "/account/login",
         component: LoginPage
-    },     
+    },
     {
         path: "/account/",
         component: AccountPage
@@ -1291,11 +1291,11 @@ export const routes = [
     {
         path: "/account/favorites",
         component: FavoritesPage
-    },	
+    },
 {
         path: "/account/watchlist",
         component: WatchlistPage
-    },	
+    },
 ]
 ```
 
@@ -1314,11 +1314,11 @@ const Router = {
                 const href = a.getAttribute("href");
                 Router.go(href);
             });
-        });  
+        });
         window.addEventListener("popstate", () => {
             Router.go(location.pathname, false);
-        });      
-        // Process initial URL   
+        });
+        // Process initial URL
         Router.go(location.pathname + location.search);
     },
     go: (route, addToHistory=true) => {
@@ -1336,7 +1336,7 @@ const Router = {
                 if (match) {
                     const params = match.slice(1);
                     pageElement = new r.component();
-                    pageElement.params = params;                    
+                    pageElement.params = params;
                     break;
                 }
             }
@@ -1344,10 +1344,10 @@ const Router = {
         if (pageElement==null) {
             pageElement = document.createElement("h1");
             pageElement.textContent = "Page not found";
-        }       
+        }
 
 		document.querySelector("main").innerHTML = "";
-		document.querySelector("main").appendChild(pageElement); 
+		document.querySelector("main").appendChild(pageElement);
     }
 
 }
@@ -1358,7 +1358,7 @@ export default Router;
 Now let's add the Router to app in `app.js` and call init to enhance our links
 
 ```js
-window.app = { 
+window.app = {
     API,
     Router,
 }
@@ -1387,7 +1387,7 @@ At *Router.js* we can remove the last two code lines with this:
 ```js
 	function updatePage() {
 		document.querySelector("main").innerHTML = "";
-		document.querySelector("main").appendChild(pageElement); 
+		document.querySelector("main").appendChild(pageElement);
 	}
 
 	if (!document.startViewTransition) {
@@ -1416,7 +1416,7 @@ Add in *index.html*
 Then, in *app.js*
 
 ```js
-window.app = { 
+window.app = {
 	// ...
     showError: (message = 'There was an error loading the page', goToHome=true) => {
         document.querySelector("#alert-modal").showModal()
@@ -1425,7 +1425,7 @@ window.app = {
         return;
     },
     closeError: () => {
-        document.getElementById('alert-modal').close()        
+        document.getElementById('alert-modal').close()
     },
 	// ...
 }
@@ -1444,7 +1444,7 @@ Add the template in *index.html*
                 <h2></h2>
                 <section id="filters">
                     <select id="filter" onchange="app.searchFilterChange(this.value)">
-                        <option>Filter by Genre</option>                        
+                        <option>Filter by Genre</option>
                     </select>
                     <select id="order" onchange="app.searchOrderChange(this.value)">
                         <option value="popularity">Sort by Popularity</option>
@@ -1457,10 +1457,10 @@ Add the template in *index.html*
             <ul id="movies-result">
                 <animated-loading data-elements="5"
                     data-width="150px" data-height="220px">
-                </animated-loading> 
+                </animated-loading>
             </ul>
         </section>
-    </template> 
+    </template>
 ```
 
 And then for the Web Component *MoviesPage*
@@ -1470,14 +1470,14 @@ import API from "../services/API.js";
 import { MovieItemComponent } from "./MovieItem.js";
 
 export default class MoviesPage extends HTMLElement {
-    
+
     async render(query) {
         const urlParams = new URLSearchParams(window.location.search);
         const order = urlParams.get("order") ?? "";
         const genre = urlParams.get("genre") ?? "";
 
         const movies = await API.searchMovies(query, order, genre);
-        
+
         const ulMovies = this.querySelector("ul");
         ulMovies.innerHTML = "";
         if (movies && movies.length>0) {
@@ -1485,10 +1485,10 @@ export default class MoviesPage extends HTMLElement {
                 const li = document.createElement("li");
                 li.appendChild(new MovieItemComponent(movie));
                 ulMovies.appendChild(li);
-            });    
+            });
         } else {
             ulMovies.innerHTML = "<h3>There are no movies with your search</h3>";
-        }        
+        }
 
         //await this.loadGenres();
 
@@ -1496,12 +1496,12 @@ export default class MoviesPage extends HTMLElement {
         if (genre) this.querySelector("#filter").value = genre;
 
     }
-    
-   
+
+
     connectedCallback() {
         const template = document.getElementById("template-movies");
         const content = template.content.cloneNode(true);
-        this.appendChild(content);  
+        this.appendChild(content);
 
         const urlParams = new URLSearchParams(window.location.search);
         const query = urlParams.get('q');
@@ -1527,7 +1527,7 @@ At *app.js* add the following function to app
             app.Router.go(`/movies?q=${keywords}`)
         }
     },
-// ...	
+// ...
 ```
 
 ### F2 - Connecting the Filter with Genre
@@ -1683,7 +1683,7 @@ func (r *AccountRepository) Authenticate(email string, password string) (bool, e
 	var user models.User
 	query := `
 		SELECT id, name, email, password_hashed
-		FROM users 
+		FROM users
 		WHERE email = $1 AND time_deleted IS NULL
 	`
 	err := r.db.QueryRow(query, email).Scan(
@@ -1710,7 +1710,7 @@ func (r *AccountRepository) Authenticate(email string, password string) (bool, e
 
 	// Update last login time
 	updateQuery := `
-		UPDATE users 
+		UPDATE users
 		SET last_login = $1
 		WHERE id = $2
 	`
@@ -1727,7 +1727,7 @@ func (r *AccountRepository) GetAccountDetails(email string) (models.User, error)
 	var user models.User
 	query := `
 		SELECT id, name, email
-		FROM users 
+		FROM users
 		WHERE email = $1 AND time_deleted IS NULL
 	`
 	err := r.db.QueryRow(query, email).Scan(
@@ -1746,8 +1746,8 @@ func (r *AccountRepository) GetAccountDetails(email string) (models.User, error)
 
 	// Fetch favorites
 	favoritesQuery := `
-		SELECT m.id, m.tmdb_id, m.title, m.tagline, m.release_year, 
-		       m.overview, m.score, m.popularity, m.language, 
+		SELECT m.id, m.tmdb_id, m.title, m.tagline, m.release_year,
+		       m.overview, m.score, m.popularity, m.language,
 		       m.poster_url, m.trailer_url
 		FROM movies m
 		JOIN user_movies um ON m.id = um.movie_id
@@ -1775,8 +1775,8 @@ func (r *AccountRepository) GetAccountDetails(email string) (models.User, error)
 
 	// Fetch watchlist
 	watchlistQuery := `
-		SELECT m.id, m.tmdb_id, m.title, m.tagline, m.release_year, 
-		       m.overview, m.score, m.popularity, m.language, 
+		SELECT m.id, m.tmdb_id, m.title, m.tagline, m.release_year,
+		       m.overview, m.score, m.popularity, m.language,
 		       m.poster_url, m.trailer_url
 		FROM movies m
 		JOIN user_movies um ON m.id = um.movie_id
@@ -1819,8 +1819,8 @@ func (r *AccountRepository) SaveCollection(user models.User, movieID int, collec
 	// Get user ID from email
 	var userID int
 	err := r.db.QueryRow(`
-		SELECT id 
-		FROM users 
+		SELECT id
+		FROM users
 		WHERE email = $1 AND time_deleted IS NULL
 	`, user.Email).Scan(&userID)
 	if err == sql.ErrNoRows {
@@ -1836,10 +1836,10 @@ func (r *AccountRepository) SaveCollection(user models.User, movieID int, collec
 	var exists bool
 	err = r.db.QueryRow(`
 		SELECT EXISTS(
-			SELECT 1 
-			FROM user_movies 
-			WHERE user_id = $1 
-			AND movie_id = $2 
+			SELECT 1
+			FROM user_movies
+			WHERE user_id = $1
+			AND movie_id = $2
 			AND relation_type = $3
 		)
 	`, userID, movieID, collection).Scan(&exists)
@@ -2046,7 +2046,7 @@ Add the new templates and populate the Web Component objects for LoginPage and R
                 <label for="register-password">Password</label>
                 <input type="password" id="register-password" placeholder="Password" required autocomplete="new-password">
                 <label for="register-password-confirm">Confirm Password</label>
-                <input type="password" id="register-password-confirm" placeholder="Confirm Password" required autocomplete="new-password">                 
+                <input type="password" id="register-password-confirm" placeholder="Confirm Password" required autocomplete="new-password">
                 <button>Register</button>
                 <p>If you already have an account, please <a href="/account/login">login</a>.</p>
             </form>
@@ -2064,7 +2064,7 @@ Add the new templates and populate the Web Component objects for LoginPage and R
                 <p>If you don't have an account, please <a href="/account/register">register</a>.</p>
             </form>
         </section>
-    </template> 
+    </template>
 ```
 
 ### G4 - Connecting the API
@@ -2077,7 +2077,7 @@ Add to *API.js*
     },
     authenticate: async (email, password) => {
         return await API.send("account/authenticate/", {email, password})
-    },   
+    },
     send: async (service, args) => {
         try {
             const response = await fetch(API.baseURL + service, {
@@ -2093,7 +2093,7 @@ Add to *API.js*
             console.error(e);
             app.showError();
         }
-    },   
+    },
 
 ```
 
@@ -2120,7 +2120,7 @@ In *app.js* we will now add:
                 app.Router.go("/account/")
             } else {
                 app.showError(response.message, false);
-            }        
+            }
         } else {
             app.showError(errors.join(". "), false);
         }
@@ -2130,7 +2130,7 @@ In *app.js* we will now add:
         let errors = [];
         const email = document.getElementById("login-email").value;
         const password = document.getElementById("login-password").value;
- 
+
         if (email.length < 8) errors.push("Enter your complete email");
         if (password.length < 6) errors.push("Enter a password with 6 characters");
         if (errors.length==0) {
@@ -2318,7 +2318,7 @@ if (response.success) {
 } else {
 	app.showError(response.message, false);
 }
-// ...			
+// ...
 ```
 
 Finally, we update our router, so it can detect and work with URLs needing authentication
@@ -2336,7 +2336,7 @@ Finally, we update our router, so it can detect and work with URLs needing authe
                     pageElement = new r.component();
                     pageElement.loggedIn = r.loggedIn;
 
-                    pageElement.params = params;                    
+                    pageElement.params = params;
                 }
             }
             if (pageElement) {
@@ -2364,7 +2364,7 @@ We start by adding a template to our *index.html*
 		<button onclick="app.Router.go('/account/watchlist')">Your Watchlist</button>
 
 	</section>
-</template>        
+</template>
 ```
 
 We create the component *AccountPage.js*
@@ -2379,7 +2379,7 @@ export default class AccountPage extends HTMLElement {
     connectedCallback() {
         const template = document.getElementById("template-account");
         const content = template.content.cloneNode(true);
-        this.appendChild(content);  
+        this.appendChild(content);
     }
 }
 customElements.define("account-page", AccountPage);
@@ -2565,7 +2565,7 @@ We need to change *API.js* to send the token if it's available
         const response = await fetch(API.baseURL + service + '?' + queryString, {
             headers: {
                 "Authorization": app.Store.jwt ? `Bearer ${app.Store.jwt}` : null
-            
+
             }
         });
         const result = await response.json();
@@ -2582,15 +2582,15 @@ Then, on the same file we will add the new services:
         } catch (e) {
             app.Router.go("/account/")
         }
-    },     
+    },
     getWatchlist: async () => {
         try {
             return await API.fetch("account/watchlist");
         } catch (e) {
             app.Router.go("/account/")
         }
-    
-    },     
+
+    },
     saveToCollection: async (movie_id, collection) => {
         return await API.send("account/save-to-collection/", {
             movie_id, collection
@@ -2608,10 +2608,10 @@ Add this template to *index.html*
             <ul id="movies-result">
                 <animated-loading data-elements="5"
                     data-width="150px" data-height="220px">
-                </animated-loading> 
+                </animated-loading>
             </ul>
         </section>
-    </template>  
+    </template>
 ```
 Then, create *CollectionPage.js*
 
@@ -2623,7 +2623,7 @@ export class CollectionPage extends HTMLElement {
     constructor(endpoint, title) {
         super();
         this.endpoint = endpoint;
-        this.title = title;   
+        this.title = title;
     }
 
     async render() {
@@ -2635,17 +2635,17 @@ export class CollectionPage extends HTMLElement {
                 const li = document.createElement("li");
                 li.appendChild(new MovieItemComponent(movie));
                 ulMovies.appendChild(li);
-            });    
+            });
         } else {
             ulMovies.innerHTML = "<h3>There are no movies</h3>";
-        }        
+        }
             ;
     }
 
     connectedCallback() {
         const template = document.getElementById("template-collection");
         const content = template.content.cloneNode(true);
-        this.appendChild(content);  
+        this.appendChild(content);
 
         this.render();
     }
@@ -2693,12 +2693,12 @@ And finally define the routes in *Routes.js*
         path: "/account/favorites",
         component: FavoritePage,
         loggedIn: true
-    },    
+    },
     {
         path: "/account/watchlist",
         component: WatchlistPage,
         loggedIn: true
-    }, 
+    },
 ```
 
 ### H5 - Adding to Collections
@@ -2728,7 +2728,7 @@ In *app.js* lets add the new two features:
             app.Router.go("/account/");
         }
     }
-```	
+```
 
 Back in *MovieDetailsPage.js*, add the following calls
 
@@ -3371,7 +3371,7 @@ In our HTML add the SimpleWebAuthn library script before app.js loading:
 
 ### I7 - Update the UI
 
-Change in *index.html* the template-account 
+Change in *index.html* the template-account
 
 ```html
  <template id="template-account">
@@ -3383,7 +3383,7 @@ Change in *index.html* the template-account
             <!-- NEW -->
             <button onclick="app.addPasskey()">Add a Passkey for faster login</button>
         </section>
-    </template>      
+    </template>
 ```
 
 And also the template-login removing the `required` attribute for the password:
@@ -3405,7 +3405,7 @@ And also the template-login removing the `required` attribute for the password:
                 <p>If you don't have an account, please <a href="/account/register">register</a>.</p>
             </form>
         </section>
-    </template>    
+    </template>
 ```
 
 ### I8 - Passkey Services
@@ -3418,26 +3418,26 @@ export const Passkeys = {
         try {
             // Get registration options with the challenge.
             const response = await fetch('/api/passkey/registration-begin', {
-                method: 'POST', 
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     "Authorization": app.Store.jwt ? `Bearer ${app.Store.jwt}` : null
-                },                
+                },
                 body: JSON.stringify({username: username})
             });
-    
+
             // Check if the options are ok.
             if (!response.ok) {
                 const err = await response.json();
                 app.showError('Failed to get registration options from server.' + err)
             }
-    
+
             const options = await response.json();
-    
-            // This triggers the browser to display the passkey modal 
+
+            // This triggers the browser to display the passkey modal
             // A new public-private-key pair is created.
             const attestationResponse = await SimpleWebAuthnBrowser.startRegistration({optionsJSON: options.publicKey});
-    
+
             // Send attestationResponse back to server for verification and storage.
             const verificationResponse = await fetch('/api/passkey/registration-end', {
                 method: 'POST',
@@ -3448,7 +3448,7 @@ export const Passkeys = {
                 },
                 body: JSON.stringify(attestationResponse)
             });
-    
+
             const msg = await verificationResponse.json();
             if (verificationResponse.ok) {
                 app.showError("Your passkey was saved. You can use it next time to login")
@@ -3457,7 +3457,7 @@ export const Passkeys = {
             }
         } catch (e) {
             app.showError('Error: ' + e.message, false);
-        }        
+        }
     },
     authenticate: async (email) => {
         try {
@@ -3467,11 +3467,11 @@ export const Passkeys = {
                 body: JSON.stringify({email})
             });
             const options = await response.json();
-    
-            // This triggers the browser to display the passkey / WebAuthn modal 
+
+            // This triggers the browser to display the passkey / WebAuthn modal
             // The challenge has been signed after this.
             const assertionResponse = await SimpleWebAuthnBrowser.startAuthentication({optionsJSON: options.publicKey});
-    
+
             // Send assertionResponse back to server for verification.
             const verificationResponse = await fetch('/api/passkey/authentication-end', {
                 method: 'POST',
@@ -3481,7 +3481,7 @@ export const Passkeys = {
                 },
                 body: JSON.stringify(assertionResponse)
             });
-    
+
             const serverResponse = await verificationResponse.json();
             if (serverResponse.success) {
                 app.Store.jwt = serverResponse.jwt;
@@ -3492,7 +3492,7 @@ export const Passkeys = {
         } catch (e) {
             console.log(e)
             app.showError('We couldn\'t authenticate you using a Passkey', false);
-        }        
+        }
     }
 }
 ```
@@ -3513,7 +3513,7 @@ In *app.js* add
         } else {
             await Passkeys.authenticate(username);
         }
-    }    
+    }
 ```
 
 ### J-Server-Side render
@@ -3741,7 +3741,7 @@ self.addEventListener('fetch', (event) => {
             });
         })
     );
-  } 
+  }
   // Handle all other requests (stale-while-revalidate)
   else {
     event.respondWith(
